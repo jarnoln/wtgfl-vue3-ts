@@ -1,11 +1,6 @@
 import { createStore } from 'vuex'
-import { Choice } from '@/types'
+import { State } from '@/types'
 
-interface State {
-  pollId: string,
-  colors: string[]
-  choices: Choice[]
-}
 
 export default createStore({
   state () {

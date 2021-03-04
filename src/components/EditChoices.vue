@@ -21,7 +21,9 @@
   </div>
   <p>
     <input id="new-choice-text" type="text" v-model="newChoiceText" />
-    <button id="btn-add-new-choice" @click="addNewChoice()">Add another choice</button>
+    <button id="btn-add-new-choice" @click="addNewChoice()">
+      Add another choice
+    </button>
   </p>
   <p>
     <button
