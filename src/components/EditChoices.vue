@@ -1,7 +1,12 @@
 <template>
-  <h1>Create poll</h1>
-  <p>Poll ID: {{ $store.state.pollId }}</p>
-  <h2>Add choices</h2>
+  <h1>Step 1: Create poll</h1>
+  <form>
+    <label for="new-poll-id">Poll ID:</label>
+    <input id="new-poll-id" type="text" v-model="localPollId" />
+    This is used to invite other people to vote on the poll and must be unique.
+    If voting only locally this can be ignored.
+  </form>
+  <h2>Choices</h2>
   <div>
     <table>
       <tr
@@ -16,7 +21,7 @@
   </div>
   <p>
     <input id="new-choice-text" type="text" v-model="newChoiceText" />
-    <button id="btn-add-new-choice" @click="addNewChoice()">Add choice</button>
+    <button id="btn-add-new-choice" @click="addNewChoice()">Add another choice</button>
   </p>
   <p>
     <button
@@ -48,10 +53,11 @@ export default defineComponent({
   },
   data() {
     return {
+      localPollId: 'wtgf1337',
       newChoiceText: ''
     }
   },
-  computed: mapState(['pollId', 'choices']),
+  computed: mapState(['choices']),
   methods: {
     addChoice(title: string) {
       this.$store.commit('addChoice', title)
@@ -66,7 +72,7 @@ export default defineComponent({
       this.addChoice('Hamburger Hut')
       this.addChoice('Pizza Palace')
       this.addChoice('Taco Terrace')
-      this.addChoice('Sushi Site')
+      this.addChoice('Sushi Stall')
     },
     clearChoices() {
       this.$store.commit('clearChoices')
