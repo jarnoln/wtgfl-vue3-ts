@@ -39,7 +39,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Choice } from '@/types'
 import { mapState } from 'vuex'
 
 export default defineComponent({
@@ -49,17 +48,14 @@ export default defineComponent({
   },
   data() {
     return {
-      choices: [] as Choice[],
       newChoiceText: ''
     }
   },
-  computed: mapState(['pollId', 'colors']),
+  computed: mapState(['pollId', 'choices']),
   methods: {
     addChoice(title: string) {
-      const id: number = this.choices.length
+      this.$store.commit('addChoice', title)
       // const color = this.$store.state.colors[id]
-      const color = this.colors[id]
-      this.choices.push({ id: id.toString(), title: title, color: color })
     },
     addNewChoice() {
       this.addChoice(this.newChoiceText)
@@ -73,7 +69,7 @@ export default defineComponent({
       this.addChoice('Sushi Site')
     },
     clearChoices() {
-      this.choices = []
+      this.$store.commit('clearChoices')
     }
   }
 })

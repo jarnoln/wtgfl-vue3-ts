@@ -1,4 +1,11 @@
 import { createStore } from 'vuex'
+import { Choice } from '@/types'
+
+interface State {
+  pollId: string,
+  colors: string[]
+  choices: Choice[]
+}
 
 export default createStore({
   state () {
@@ -18,9 +25,19 @@ export default createStore({
         '#faf',
         '#ffa'
       ],
+      choices: []
     }
   },
-  mutations: {},
+  mutations: {
+    addChoice (state: State, title: string) {
+      const id: number = state.choices.length
+      const color = state.colors[id]
+      state.choices.push({ id: id.toString(), title: title, color: color })
+    },
+    clearChoices (state: State) {
+      state.choices = []
+    }
+  },
   actions: {},
   modules: {}
 })
