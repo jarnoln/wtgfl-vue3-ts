@@ -1,5 +1,7 @@
 <template>
-  <h1>Choices</h1>
+  <h1>Create poll</h1>
+  <p>Poll ID: {{ $store.state.pollId }}</p>
+  <h2>Add choices</h2>
   <div>
     <table>
       <tr
@@ -28,11 +30,17 @@
       Use example choices
     </button>
   </p>
+  <p>
+    <button id="btn-start-voting">
+      Start voting
+    </button>
+  </p>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Choice } from '@/types'
+import { mapState } from 'vuex'
 
 export default defineComponent({
   name: 'EditChoices',
@@ -41,28 +49,15 @@ export default defineComponent({
   },
   data() {
     return {
-      pollId: Number,
       choices: [] as Choice[],
-      newChoiceText: '',
-      colors: [
-        '#77f',
-        '#7f7',
-        '#7ff',
-        '#f77',
-        '#f7f',
-        '#ff7',
-        '#aaf',
-        '#afa',
-        '#aff',
-        '#faa',
-        '#faf',
-        '#ffa'
-      ]
+      newChoiceText: ''
     }
   },
+  computed: mapState(['pollId', 'colors']),
   methods: {
     addChoice(title: string) {
       const id: number = this.choices.length
+      // const color = this.$store.state.colors[id]
       const color = this.colors[id]
       this.choices.push({ id: id.toString(), title: title, color: color })
     },
