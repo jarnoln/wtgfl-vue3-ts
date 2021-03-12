@@ -80,6 +80,10 @@ export default defineComponent({
     },
     startVoting() {
       this.$store.commit('setPollId', this.localPollId)
+      this.$router.push({
+        name: 'Vote',
+        params: { pollId: this.localPollId }
+      })
     }
   }
 })
