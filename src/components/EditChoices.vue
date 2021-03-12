@@ -38,7 +38,7 @@
     </button>
   </p>
   <p>
-    <button id="btn-start-voting">
+    <button id="btn-start-voting" @click="startVoting()">
       Start voting
     </button>
   </p>
@@ -63,7 +63,6 @@ export default defineComponent({
   methods: {
     addChoice(title: string) {
       this.$store.commit('addChoice', title)
-      // const color = this.$store.state.colors[id]
     },
     addNewChoice() {
       this.addChoice(this.newChoiceText)
@@ -78,6 +77,9 @@ export default defineComponent({
     },
     clearChoices() {
       this.$store.commit('clearChoices')
+    },
+    startVoting() {
+      this.$store.commit('setPollId', this.localPollId)
     }
   }
 })

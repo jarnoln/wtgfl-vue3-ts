@@ -41,6 +41,7 @@ export default createStore({
       state.choices = []
     },
     setPollId (state: State, pollId: string) {
+      console.log('setPollId', pollId)
       state.pollId = pollId
     }
   },
