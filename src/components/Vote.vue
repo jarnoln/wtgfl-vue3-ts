@@ -1,6 +1,5 @@
 <template>
   <h1>Step 2: Vote</h1>
-  <p>Poll ID: {{ pollId }}</p>
   <h2>Choices</h2>
   <div>
     <table>
@@ -9,8 +8,20 @@
         :id="choice.id"
         :key="choice.id"
         :style="'background-color: ' + choice.color"
+        @click="addToBallot(choice)"
       >
         <td class="choice">{{ choice.title }}</td>
+      </tr>
+    </table>
+  </div>
+  <h2>Your ballot</h2>
+  <div>
+    <table>
+      <tr v-for="(choice, index) in ballot" :id="choice.id" :key="choice.id">
+        <td>{{ index + 1 }}.</td>
+        <td class="choice" :style="'background-color: ' + choice.color">
+          {{ choice.title }}
+        </td>
       </tr>
     </table>
   </div>
@@ -49,19 +60,27 @@ export default defineComponent({
   data() {
     return {
       voterId: '',
-      ballot: [],
+      ballot: [] as Choice[],
       unusedChoices: [] as Choice[]
     }
   },
-  computed: mapState(['choices', 'pollId']),
+  computed: mapState(['choices']),
   methods: {
-    addChoice(title: string) {
-      this.$store.commit('addChoice', title)
+    addToBallot(choice: Choice) {
+      console.log('addChoiceToBallot', choice)
+      if (!this.ballot.includes(choice)) {
+        this.ballot.push(choice)
+        // Remove this choice from unusedChoices
+        const index: number = this.unusedChoices.indexOf(choice)
+        this.unusedChoices.splice(index, 1)
+      }
+      // this.$store.commit('addChoiceToBallot', choiceId)
       // const color = this.$store.state.colors[id]
     },
     clearBallot() {
       this.ballot = []
-      this.unusedChoices = this.choices
+      this.unusedChoices = [...this.choices] // Copy of choices-array
+      console.log('this.choices', this.choices)
     }
   }
 })
