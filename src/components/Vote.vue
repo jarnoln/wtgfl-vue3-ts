@@ -35,7 +35,7 @@
     </button>
   </p>
   <p>
-    <button id="btn-cast-ballot">
+    <button id="btn-cast-ballot" @click="castBallot()">
       Cast ballot
     </button>
   </p>
@@ -44,6 +44,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
+import { Ballot } from '@/types'
 import { Choice } from '@/types'
 
 export default defineComponent({
@@ -56,6 +57,7 @@ export default defineComponent({
   },
   created() {
     this.clearBallot()
+    this.voterId = 'voter1'
   },
   data() {
     return {
@@ -67,20 +69,29 @@ export default defineComponent({
   computed: mapState(['choices']),
   methods: {
     addToBallot(choice: Choice) {
-      console.log('addChoiceToBallot', choice)
+      console.log('addToBallot', choice)
       if (!this.ballot.includes(choice)) {
         this.ballot.push(choice)
         // Remove this choice from unusedChoices
         const index: number = this.unusedChoices.indexOf(choice)
         this.unusedChoices.splice(index, 1)
       }
-      // this.$store.commit('addChoiceToBallot', choiceId)
-      // const color = this.$store.state.colors[id]
     },
     clearBallot() {
+      console.log('clearBallot')
       this.ballot = []
       this.unusedChoices = [...this.choices] // Copy of choices-array
       console.log('this.choices', this.choices)
+    },
+    castBallot() {
+      console.log('castBallot')
+      const voterId: string = this.voterId.toString()
+      const ballot: Ballot = {
+        voterId: voterId,
+        choices: this.ballot
+      }
+      this.$store.commit('addBallot', ballot)
+      this.clearBallot()
     }
   }
 })

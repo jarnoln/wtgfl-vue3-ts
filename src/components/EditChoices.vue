@@ -76,6 +76,7 @@ export default defineComponent({
       this.addChoice('Sushi Stall')
     },
     clearChoices() {
+      this.$store.commit('clearBallots')
       this.$store.commit('clearChoices')
     },
     startVoting() {
