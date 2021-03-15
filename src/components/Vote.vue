@@ -39,6 +39,7 @@
       Cast ballot
     </button>
   </p>
+  <Ballots />
 </template>
 
 <script lang="ts">
@@ -46,6 +47,7 @@ import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
 import { Ballot } from '@/types'
 import { Choice } from '@/types'
+import Ballots from '@/components/Ballots.vue'
 
 export default defineComponent({
   name: 'Vote',
@@ -54,6 +56,9 @@ export default defineComponent({
       type: String,
       required: true
     }
+  },
+  components: {
+    Ballots
   },
   created() {
     this.clearBallot()
@@ -66,7 +71,7 @@ export default defineComponent({
       unusedChoices: [] as Choice[]
     }
   },
-  computed: mapState(['choices']),
+  computed: mapState(['choices', 'ballots']),
   methods: {
     addToBallot(choice: Choice) {
       console.log('addToBallot', choice)
@@ -91,6 +96,8 @@ export default defineComponent({
         choices: this.ballot
       }
       this.$store.commit('addBallot', ballot)
+      const nextVoterIndex: number = this.ballots.length + 1
+      this.voterId = 'voter' + nextVoterIndex.toString()
       this.clearBallot()
     }
   }
