@@ -1,44 +1,54 @@
 <template>
   <h1>Step 2: Vote</h1>
-  <h2>Choices</h2>
-  <div>
-    <table>
-      <tr
-        v-for="choice in unusedChoices"
-        :id="choice.id"
-        :key="choice.id"
-        :style="'background-color: ' + choice.color"
-        @click="addToBallot(choice)"
+  <div v-if="checkForNextVoter">
+    <button id="btn-next-voter" @click="nextVoter()">Next voter</button>
+    <button id="btn-see-results" @click="goToResults()">See results</button>
+  </div>
+  <div v-else>
+    <form>
+      <label for="voter-id">Voter ID:</label>
+      <input id="voter-id" type="text" v-model="voterId" />
+    </form>
+    <h2>Choices</h2>
+    <div>
+      <table>
+        <tr
+          v-for="choice in unusedChoices"
+          :id="choice.id"
+          :key="choice.id"
+          :style="'background-color: ' + choice.color"
+          @click="addToBallot(choice)"
+        >
+          <td class="choice">{{ choice.title }}</td>
+        </tr>
+      </table>
+    </div>
+    <h2>Your ballot</h2>
+    <div>
+      <table>
+        <tr v-for="(choice, index) in ballot" :id="choice.id" :key="choice.id">
+          <td>{{ index + 1 }}.</td>
+          <td class="choice" :style="'background-color: ' + choice.color">
+            {{ choice.title }}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>
+      <button
+        id="btn-clear-ballot"
+        :disabled="ballot.length === 0"
+        @click="clearBallot()"
       >
-        <td class="choice">{{ choice.title }}</td>
-      </tr>
-    </table>
+        Clear ballot
+      </button>
+    </p>
+    <p>
+      <button id="btn-cast-ballot" @click="castBallot()">
+        Cast ballot
+      </button>
+    </p>
   </div>
-  <h2>Your ballot</h2>
-  <div>
-    <table>
-      <tr v-for="(choice, index) in ballot" :id="choice.id" :key="choice.id">
-        <td>{{ index + 1 }}.</td>
-        <td class="choice" :style="'background-color: ' + choice.color">
-          {{ choice.title }}
-        </td>
-      </tr>
-    </table>
-  </div>
-  <p>
-    <button
-      id="btn-clear-ballot"
-      :disabled="ballot.length === 0"
-      @click="clearBallot()"
-    >
-      Clear ballot
-    </button>
-  </p>
-  <p>
-    <button id="btn-cast-ballot" @click="castBallot()">
-      Cast ballot
-    </button>
-  </p>
   <Ballots />
 </template>
 
@@ -62,11 +72,12 @@ export default defineComponent({
   },
   created() {
     this.clearBallot()
-    this.voterId = 'voter1'
+    this.voterId = 'voter1' // TODO: Check for duplicates
   },
   data() {
     return {
       voterId: '',
+      checkForNextVoter: false,
       ballot: [] as Choice[],
       unusedChoices: [] as Choice[]
     }
@@ -74,7 +85,7 @@ export default defineComponent({
   computed: mapState(['choices', 'ballots']),
   methods: {
     addToBallot(choice: Choice) {
-      console.log('addToBallot', choice)
+      console.log('addToBallot(', choice, ')')
       if (!this.ballot.includes(choice)) {
         this.ballot.push(choice)
         // Remove this choice from unusedChoices
@@ -83,22 +94,30 @@ export default defineComponent({
       }
     },
     clearBallot() {
-      console.log('clearBallot')
+      console.log('clearBallot()')
       this.ballot = []
       this.unusedChoices = [...this.choices] // Copy of choices-array
       console.log('this.choices', this.choices)
     },
     castBallot() {
-      console.log('castBallot')
+      console.log('castBallot()')
       const voterId: string = this.voterId.toString()
       const ballot: Ballot = {
         voterId: voterId,
         choices: this.ballot
       }
       this.$store.commit('addBallot', ballot)
+      this.clearBallot()
+      this.checkForNextVoter = true
+    },
+    nextVoter() {
+      console.log('nextVoter()')
       const nextVoterIndex: number = this.ballots.length + 1
       this.voterId = 'voter' + nextVoterIndex.toString()
-      this.clearBallot()
+      this.checkForNextVoter = false
+    },
+    goToResults() {
+      console.log('goToResults()')
     }
   }
 })

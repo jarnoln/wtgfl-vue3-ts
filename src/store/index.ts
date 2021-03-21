@@ -26,8 +26,8 @@ export default createStore({
         '#faf',
         '#ffa'
       ],
-      choices: [],
-      ballots: []
+      choices: [],  // All choices available in this poll
+      ballots: []   // All ballots cast in this poll
     }
   },
   mutations: {
