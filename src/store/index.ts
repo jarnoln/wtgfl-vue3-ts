@@ -1,6 +1,5 @@
 import { createStore } from 'vuex'
-import { State } from '@/types'
-import { Ballot } from '@/types'
+import { State, Ballot, Result } from '@/types'
 
 function idFromTitle(title: string): string {
   let newId: string = title.toLowerCase()
@@ -27,7 +26,8 @@ export default createStore({
         '#ffa'
       ],
       choices: [],  // All choices available in this poll
-      ballots: []   // All ballots cast in this poll
+      ballots: [],   // All ballots cast in this poll
+      results: []
     }
   },
   mutations: {
@@ -43,6 +43,10 @@ export default createStore({
       console.log('store:addChoice id:', newId, 'title:', title, 'color:', color)
       state.choices.push({ id: newId, title: title, color: color })
     },
+    addResult (state: State, result: Result) {
+      console.log('store:addResult', result)
+      state.results.push(result)
+    },
     clearBallots (state: State) {
       console.log('store:clearBallots')
       state.ballots = []
@@ -50,6 +54,10 @@ export default createStore({
     clearChoices (state: State) {
       console.log('store:clearChoices')
       state.choices = []
+    },
+    clearResults (state: State) {
+      console.log('store:clearResults')
+      state.results = []
     },
     setPollId (state: State, pollId: string) {
       console.log('store:setPollId', pollId)

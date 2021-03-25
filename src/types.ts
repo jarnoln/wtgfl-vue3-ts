@@ -11,7 +11,13 @@ export interface Ballot {
 
 export interface Result {
   winners: Choice[],  // Usually just one, but in case of tie there may be more
-  method: string
+  method: string,
+  points: ChoicePoints[]
+}
+
+export interface ChoicePoints {
+  choice: Choice,
+  points: number
 }
 
 export interface State {
