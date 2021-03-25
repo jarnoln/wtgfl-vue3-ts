@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 import Vote from '../components/Vote.vue'
+import Results from '../components/Results.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -13,6 +14,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Vote',
     props: true,
     component: Vote
+  },
+  {
+    path: '/poll/:pollId/results',
+    name: 'Results',
+    props: true,
+    component: Results
   },
   {
     path: '/about',

@@ -118,6 +118,10 @@ export default defineComponent({
     },
     goToResults() {
       console.log('goToResults()')
+      this.$router.push({
+        name: 'Results',
+        params: { pollId: this.pollId }
+      })
     }
   }
 })
