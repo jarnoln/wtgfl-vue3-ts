@@ -1,5 +1,6 @@
 <template>
-  <div class="home">
+  <PollBar :pollId="pollId" />
+  <div>
     <EditChoices />
   </div>
 </template>
@@ -7,6 +8,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import EditChoices from '@/components/EditChoices.vue'
+import PollBar from '@/components/PollBar.vue'
 
 export default defineComponent({
   name: 'EditPoll',
@@ -17,7 +19,8 @@ export default defineComponent({
     }
   },
   components: {
-    EditChoices
+    EditChoices,
+    PollBar
   }
 })
 </script>

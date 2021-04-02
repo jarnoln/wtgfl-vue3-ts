@@ -10,7 +10,7 @@ function idFromTitle(title: string): string {
 export default createStore({
   state () {
     return {
-      pollId: 'poll1',
+      pollId: '',
       colors: [
         '#77f',
         '#7f7',
@@ -25,8 +25,8 @@ export default createStore({
         '#faf',
         '#ffa'
       ],
-      choices: [],  // All choices available in this poll
-      ballots: [],   // All ballots cast in this poll
+      choices: [], // All choices available in this poll
+      ballots: [], // All ballots cast in this poll
       results: []
     }
   },

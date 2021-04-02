@@ -1,4 +1,5 @@
 <template>
+  <PollBar :pollId="pollId" />
   <h1>Step 3: Results</h1>
   <div v-for="result in results" :id="result.method" :key="result.method">
     <h2>Method: {{ result.method }}</h2>
@@ -27,6 +28,7 @@ import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
 import { Choice, Result } from '@/types'
 import Ballots from '@/components/Ballots.vue'
+import PollBar from '@/components/PollBar.vue'
 import { calculatePluralityWinners } from '@/methods/plurality'
 
 export default defineComponent({
@@ -38,7 +40,8 @@ export default defineComponent({
     }
   },
   components: {
-    Ballots
+    Ballots,
+    PollBar
   },
   created() {
     this.calculateResults()

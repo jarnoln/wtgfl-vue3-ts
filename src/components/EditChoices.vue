@@ -1,5 +1,5 @@
 <template>
-  <h1>Step 1: Create poll</h1>
+  <h1>Step 1: Edit choices</h1>
   <form>
     <label for="new-poll-id">Poll ID:</label>
     <input id="new-poll-id" type="text" v-model="localPollId" />
@@ -51,15 +51,23 @@ import { mapState } from 'vuex'
 export default defineComponent({
   name: 'EditChoices',
   created() {
-    this.addExampleChoices()
+    console.log('EditChoices:created()')
+    if (this.choices.length === 0) {
+      this.addExampleChoices()
+    }
+    if (this.pollId != '') {
+      this.localPollId = this.pollId
+    } else {
+      this.localPollId = 'wtgfl1337'
+    }
   },
   data() {
     return {
-      localPollId: 'wtgf1337',
+      localPollId: '',
       newChoiceText: ''
     }
   },
-  computed: mapState(['choices']),
+  computed: mapState(['choices', 'pollId']),
   methods: {
     addChoice(title: string) {
       this.$store.commit('addChoice', title)

@@ -1,4 +1,5 @@
 <template>
+  <PollBar :pollId="pollId" />
   <h1>Step 2: Vote</h1>
   <div v-if="checkForNextVoter">
     <button id="btn-next-voter" @click="nextVoter()">Next voter</button>
@@ -58,6 +59,7 @@ import { mapState } from 'vuex'
 import { Ballot } from '@/types'
 import { Choice } from '@/types'
 import Ballots from '@/components/Ballots.vue'
+import PollBar from '@/components/PollBar.vue'
 
 export default defineComponent({
   name: 'Vote',
@@ -68,11 +70,12 @@ export default defineComponent({
     }
   },
   components: {
-    Ballots
+    Ballots,
+    PollBar
   },
   created() {
     this.clearBallot()
-    this.voterId = 'voter1' // TODO: Check for duplicates
+    this.nextVoter()
   },
   data() {
     return {
