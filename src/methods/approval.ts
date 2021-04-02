@@ -1,22 +1,21 @@
 import { Ballot, Choice, ChoicePoints, Result } from '@/types'
 
-export function calculatePluralityWinners(ballots: Ballot[]): Result {
-  console.log('calculatePluralityWinners()')
-  // Give one point the first choice of each ballot, ignoring any choices after that.
+export function calculateApprovalWinners(ballots: Ballot[]): Result {
+  console.log('calculateApprovalWinners()')
+  // Give one point for each choice in ballot, ignoring order.
   // The choice(s) with most points wins.
-  // https://en.wikipedia.org/wiki/Plurality_voting
+  // https://en.wikipedia.org/wiki/Approval_voting
   const counts: { [id: string]: ChoicePoints } = {} // This keeps track of vote counts for each choice
   for (let i = 0; i < ballots.length; i++) {
     const ballot = ballots[i]
-    const choices = ballot.choices
-    if (choices.length > 0) {
-      const firstChoice = choices[0]
-      const id = firstChoice.id
+    for (let j = 0; j < ballot.choices.length; j++) {
+      const choice = ballot.choices[j]
+      const id = choice.id
       if (Object.keys(counts).includes(id)) {
         counts[id].points += 1
       } else {
         const cp: ChoicePoints = {
-          choice: firstChoice,
+          choice: choice,
           points: 1
         }
         counts[id] = cp
@@ -48,7 +47,7 @@ export function calculatePluralityWinners(ballots: Ballot[]): Result {
 
   const result: Result = {
     winners: winners,
-    method: 'plurality',
+    method: 'approval',
     points: points
   }
   return result

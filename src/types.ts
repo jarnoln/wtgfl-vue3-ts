@@ -5,23 +5,23 @@ export interface Choice {
 }
 
 export interface Ballot {
-  voterId: string,
-  choices: Choice[]  // List of choices in order of preference
+  voterId: string
+  choices: Choice[] // List of choices in order of preference
 }
 
 export interface Result {
-  winners: Choice[],  // Usually just one, but in case of tie there may be more
-  method: string,
+  winners: Choice[] // Usually just one, but in case of tie there may be more
+  method: string
   points: ChoicePoints[]
 }
 
 export interface ChoicePoints {
-  choice: Choice,
+  choice: Choice
   points: number
 }
 
 export interface State {
-  pollId: string,
+  pollId: string
   colors: string[]
   choices: Choice[]
   ballots: Ballot[]
