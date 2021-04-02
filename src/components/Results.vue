@@ -2,15 +2,7 @@
   <h1>Step 3: Results</h1>
   <div v-for="result in results" :id="result.method" :key="result.method">
     <h2>Method: {{ result.method }}</h2>
-    <h2 v-if="result.winners.length === 1">
-      Winner: {{ result.winners[0].title }}
-    </h2>
-    <h2 v-else>
-      Winners:
-      <span v-for="winner in result.winners" :key="winner.id">{{
-        winner.title
-      }}</span>
-    </h2>
+    <h2>{{ getWinnersString(result) }}</h2>
     <h2>Points</h2>
     <table>
       <thead>
@@ -118,6 +110,21 @@ export default defineComponent({
       this.$store.commit('clearResults')
       const result = calculatePluralityWinners(this.ballots)
       this.$store.commit('addResult', result)
+    },
+    getWinnersString(result: Result): string {
+      let winnerString = 'No winner'
+
+      if (result.winners.length == 0) {
+        return winnerString
+      }
+      winnerString = 'Winners: ' + result.winners[0].title
+      if (result.winners.length == 1) {
+        return winnerString
+      }
+      for (let i = 1; i < result.winners.length; i++) {
+        winnerString += ', ' + result.winners[i].title
+      }
+      return winnerString
     }
   }
 })
