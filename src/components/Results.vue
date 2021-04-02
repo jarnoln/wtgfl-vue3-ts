@@ -1,13 +1,31 @@
 <template>
   <h1>Step 3: Results</h1>
   <div v-for="result in results" :id="result.method" :key="result.method">
-    <h2>
-      {{ result.method }} winner(s):
+    <h2>Method: {{ result.method }}</h2>
+    <h2 v-if="result.winners.length === 1">
+      Winner: {{ result.winners[0].title }}
+    </h2>
+    <h2 v-else>
+      Winners:
       <span v-for="winner in result.winners" :key="winner.id">{{
         winner.title
       }}</span>
     </h2>
     <h2>Points</h2>
+    <table>
+      <thead>
+        <th>Choice</th>
+        <th>Votes</th>
+      </thead>
+      <tr
+        v-for="choicePoints in result.points"
+        :key="choicePoints.choice.id"
+        :id="choicePoints.choice.id"
+      >
+        <td>{{ choicePoints.choice.title }}</td>
+        <td>{{ choicePoints.points }}</td>
+      </tr>
+    </table>
   </div>
   <Ballots />
 </template>
@@ -20,7 +38,9 @@ import Ballots from '@/components/Ballots.vue'
 
 function calculatePluralityWinners(ballots: Ballot[]): Result {
   console.log('calculatePluralityWinners()')
-  const counts: { [id: string]: ChoicePoints } = {}
+  // Go through ballots and add a point for the first choice on ballot
+  // (only the first choice is counted in plurality method)
+  const counts: { [id: string]: ChoicePoints } = {}  // This keeps track of vote counts fo each choice
   for (let i = 0; i < ballots.length; i++) {
     const ballot = ballots[i]
     const choices = ballot.choices
@@ -41,6 +61,7 @@ function calculatePluralityWinners(ballots: Ballot[]): Result {
     }
   }
 
+  // Find out who has most votes
   let winners: Choice[] = []
   const points: ChoicePoints[] = []
   let maxVotes = 0
@@ -50,10 +71,12 @@ function calculatePluralityWinners(ballots: Ballot[]): Result {
     const choice = counts[key].choice
     console.log('Votes for ' + key + ': ' + votes)
     if (votes > maxVotes) {
+      // If current choice has more votes than current winner, make this the new winner
       maxVotes = votes
       winners = [choice]
       console.log(key, 'is the current winner')
     } else if (votes == maxVotes) {
+      // If current choice has as many votes as current winner, add it to list of winners
       winners.push(choice)
       console.log(key, 'added to winners')
     }
