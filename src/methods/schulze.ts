@@ -140,24 +140,13 @@ export function calculateSchulzeWinners(
     )
   }
 
-  // Find choice with most wins
-  let winners: Choice[] = []
-  const points: ChoicePoints[] = []
-  let maxWins = 0
+  // See if three is a choice that does not lose to any other choice
+  const winners: Choice[] = []
   Object.keys(wins).forEach(id => {
     console.log(id, 'wins: ', wins[id].points, 'losses:', losses[id].points)
-    points.push(wins[id])
     if (wins[id].points > 0) {
-      // If this choice has won at least once
-      if (wins[id].points > maxWins) {
-        // If this choice has won more times than previous winner make it the current winner
-        winners = [wins[id].choice]
-        maxWins = wins[id].points
-        console.log(id + ' is the current winner')
-      } else if (wins[id].points === maxWins) {
-        // If this choice has won same amount as previous winner(s) add it to winners
+      if (losses[id].points === 0) {
         winners.push(wins[id].choice)
-        console.log(id + ' added to winners')
       }
     }
   })
@@ -167,7 +156,6 @@ export function calculateSchulzeWinners(
     const winner = winners[0]
     if (losses[winner.id].points === 0) {
       console.log('Found single undefeated Condorcet winner: ' + winner.id)
-      // return result
     }
   }
   console.log(
@@ -183,18 +171,18 @@ export function calculateSchulzeWinners(
   for (let i = 0; i < choices.length; i++) {
     const a = choices[i].id
     const pRow: { [id: string]: number } = {}
-    let rowString = a + ': '
+    // let rowString = a + ': '
     for (let j = 0; j < choices.length; j++) {
       const b = choices[j].id
       if (a != b) {
-        rowString += '(' + a + ', ' + b + '): ' + resultMatrix[a][b]
+        // rowString += '(' + a + ', ' + b + '): ' + resultMatrix[a][b]
         if (resultMatrix[a][b] > resultMatrix[b][a]) {
           pRow[b] = resultMatrix[a][b]
         } else [(pRow[b] = 0)]
       }
     }
     p[a] = pRow
-    console.log(rowString)
+    // console.log(rowString)
   }
 
   for (let i = 0; i < choices.length; i++) {
@@ -235,7 +223,7 @@ export function calculateSchulzeWinners(
   // Add every choice that has not been declared as not winner to the winners list
   for (let i = 0; i < choices.length; i++) {
     if (schulzeWinners[choices[i].id] === true) {
-      console.log(choices[i].id, 'is a Schulze winner')
+      console.log(choices[i].id, 'is a Schulze winner ***')
       schulzeWinnerList.push(choices[i])
     }
   }
@@ -251,7 +239,7 @@ export function calculateSchulzeWinners(
   const result: Result = {
     winners: schulzeWinnerList,
     method: 'schulze',
-    points: points,
+    points: [],
     pairwiseResults: pairwiseResults
   }
 
