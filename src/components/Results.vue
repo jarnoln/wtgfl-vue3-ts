@@ -4,21 +4,60 @@
   <div v-for="result in results" :id="result.method" :key="result.method">
     <h2>Method: {{ result.method }}</h2>
     <h2>{{ getWinnersString(result) }}</h2>
-    <h2>Points</h2>
-    <table>
-      <thead>
-        <th>Choice</th>
-        <th>Votes</th>
-      </thead>
-      <tr
-        v-for="choicePoints in result.points"
-        :key="choicePoints.choice.id"
-        :id="choicePoints.choice.id"
-      >
-        <td>{{ choicePoints.choice.title }}</td>
-        <td>{{ choicePoints.points }}</td>
-      </tr>
-    </table>
+    <div v-if="result.points.length > 0">
+      <h2>Points</h2>
+      <table>
+        <thead>
+          <th>Choice</th>
+          <th>Votes</th>
+        </thead>
+        <tr
+          v-for="choicePoints in result.points"
+          :key="choicePoints.choice.id"
+          :id="choicePoints.choice.id"
+        >
+          <td>{{ choicePoints.choice.title }}</td>
+          <td>{{ choicePoints.points }}</td>
+        </tr>
+      </table>
+    </div>
+    <div v-if="result.method === 'schulze'">
+      <h2>Pairwise result matrix</h2>
+      <table>
+        <thead>
+          <th>&nbsp;</th>
+          <th
+            v-for="choice in choices"
+            :key="choice.id"
+            :style="'background-color: ' + choice.color"
+          >
+            {{ choice.id.slice(0, 2) }}
+          </th>
+        </thead>
+        <tbody>
+          <tr v-for="choiceA in choices" :key="choiceA.id">
+            <th :style="'background-color: ' + choiceA.color">
+              {{ choiceA.id.slice(0, 2) }}
+            </th>
+            <td v-for="choiceB in choices" :key="choiceB.id">
+              <span v-if="choiceA.id === choiceB.id">
+                -
+              </span>
+              <span v-else>
+                (
+                {{
+                  result.pairwiseResults[choiceA.id][choiceB.id].choiceA.points
+                }},
+                {{
+                  result.pairwiseResults[choiceA.id][choiceB.id].choiceB.points
+                }}
+                )
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <Ballots />
 </template>
