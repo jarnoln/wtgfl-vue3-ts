@@ -1,56 +1,91 @@
 <template>
-  <PollBar :pollId="pollId" />
-  <h1>Step 2: Vote</h1>
-  <div v-if="checkForNextVoter">
-    <button id="btn-next-voter" @click="nextVoter()">Next voter</button>
-    <button id="btn-see-results" @click="goToResults()">See results</button>
-  </div>
-  <div v-else>
-    <form>
-      <label for="voter-id">Voter ID:</label>
-      <input id="voter-id" type="text" v-model="voterId" />
-    </form>
-    <h2>Choices</h2>
-    <div>
-      <table>
-        <tr
-          v-for="choice in unusedChoices"
-          :id="choice.id"
-          :key="choice.id"
-          :style="'background-color: ' + choice.color"
-          @click="addToBallot(choice)"
-        >
-          <td class="choice">{{ choice.title }}</td>
-        </tr>
-      </table>
+  <div class="container">
+    <PollBar :pollId="pollId" />
+    <h1>Step 2: Vote</h1>
+    <div class="row">
+      <div class="col-8">
+        <div v-if="checkForNextVoter">
+          <button
+            id="btn-next-voter"
+            type="button"
+            class="btn btn-primary"
+            @click="nextVoter()"
+          >
+            Next voter
+          </button>
+          <button
+            id="btn-see-results"
+            type="button"
+            class="btn btn-primary"
+            @click="goToResults()"
+          >
+            See results
+          </button>
+        </div>
+        <div v-else>
+          <h2>Choices</h2>
+          <div>
+            <table>
+              <tr
+                v-for="choice in unusedChoices"
+                :id="choice.id"
+                :key="choice.id"
+                :style="'background-color: ' + choice.color"
+                @click="addToBallot(choice)"
+              >
+                <td class="choice">{{ choice.title }}</td>
+              </tr>
+            </table>
+          </div>
+          <hr />
+          <h2>Your ballot</h2>
+          <div>
+            <table>
+              <tr
+                v-for="(choice, index) in ballot"
+                :id="choice.id"
+                :key="choice.id"
+              >
+                <td>{{ index + 1 }}.</td>
+                <td class="choice" :style="'background-color: ' + choice.color">
+                  {{ choice.title }}
+                </td>
+              </tr>
+            </table>
+          </div>
+          <hr />
+          <p>
+            <button
+              id="btn-clear-ballot"
+              type="button"
+              class="btn btn-secondary"
+              :disabled="ballot.length === 0"
+              @click="clearBallot()"
+            >
+              Clear ballot
+            </button>
+          </p>
+          <p>
+            <button
+              id="btn-cast-ballot"
+              type="button"
+              class="btn btn-primary"
+              @click="castBallot()"
+            >
+              Cast ballot
+            </button>
+          </p>
+          <form>
+            <label for="voter-id">Voter ID:</label>
+            <input id="voter-id" type="text" v-model="voterId" />
+          </form>
+        </div>
+      </div>
+      <div class="col-4">
+        <Ballots />
+      </div>
     </div>
-    <h2>Your ballot</h2>
-    <div>
-      <table>
-        <tr v-for="(choice, index) in ballot" :id="choice.id" :key="choice.id">
-          <td>{{ index + 1 }}.</td>
-          <td class="choice" :style="'background-color: ' + choice.color">
-            {{ choice.title }}
-          </td>
-        </tr>
-      </table>
-    </div>
-    <p>
-      <button
-        id="btn-clear-ballot"
-        :disabled="ballot.length === 0"
-        @click="clearBallot()"
-      >
-        Clear ballot
-      </button>
-    </p>
-    <p>
-      <button id="btn-cast-ballot" @click="castBallot()">
-        Cast ballot
-      </button>
-    </p>
   </div>
-  <Ballots />
 </template>
 
 <script lang="ts">
@@ -136,6 +171,10 @@ export default defineComponent({
 <style scoped>
 table {
   border: 1px solid black;
+}
+
+.btn {
+  margin: 2px;
 }
 
 .choice {
