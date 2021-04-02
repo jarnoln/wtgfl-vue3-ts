@@ -27,7 +27,7 @@ export default createStore({
       ],
       choices: [], // All choices available in this poll
       ballots: [], // All ballots cast in this poll
-      results: []
+      results: [] // Poll results calculated from ballots
     }
   },
   mutations: {
@@ -62,8 +62,19 @@ export default createStore({
     setPollId (state: State, pollId: string) {
       console.log('store:setPollId', pollId)
       state.pollId = pollId
+    },
+  },
+  actions: {
+    addExampleChoices (context) {
+      // Add automatically some example choices, mostly to help testing.
+      context.commit('clearResults')
+      context.commit('clearChoices')
+      context.commit('clearBallots')
+      context.commit('addChoice', 'Hamburger Hut')
+      context.commit('addChoice', 'Pizza Palace')
+      context.commit('addChoice', 'Taco Terrace')
+      context.commit('addChoice', 'Sushi Stall')
     }
   },
-  actions: {},
   modules: {}
 })

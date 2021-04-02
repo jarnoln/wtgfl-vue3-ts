@@ -77,11 +77,7 @@ export default defineComponent({
       this.newChoiceText = ''
     },
     addExampleChoices() {
-      this.clearChoices()
-      this.addChoice('Hamburger Hut')
-      this.addChoice('Pizza Palace')
-      this.addChoice('Taco Terrace')
-      this.addChoice('Sushi Stall')
+      this.$store.dispatch('addExampleChoices')
     },
     clearChoices() {
       this.$store.commit('clearBallots')
