@@ -31,6 +31,7 @@ import Ballots from '@/components/Ballots.vue'
 import PollBar from '@/components/PollBar.vue'
 import { calculateApprovalWinners } from '@/methods/approval'
 import { calculatePluralityWinners } from '@/methods/plurality'
+import { calculateSchulzeWinners } from '@/methods/schulze'
 
 export default defineComponent({
   name: 'Results',
@@ -55,15 +56,17 @@ export default defineComponent({
       unusedChoices: [] as Choice[]
     }
   },
-  computed: mapState(['results', 'ballots']),
+  computed: mapState(['choices', 'results', 'ballots']),
   methods: {
     calculateResults() {
       console.log('calculateResults()')
       this.$store.commit('clearResults')
       const approvalResult = calculateApprovalWinners(this.ballots)
       const pluralityResult = calculatePluralityWinners(this.ballots)
+      const schulzeResult = calculateSchulzeWinners(this.choices, this.ballots)
       this.$store.commit('addResult', approvalResult)
       this.$store.commit('addResult', pluralityResult)
+      this.$store.commit('addResult', schulzeResult)
     },
     getWinnersString(result: Result): string {
       let winnerString = 'No winner'

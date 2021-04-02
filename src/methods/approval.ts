@@ -48,7 +48,8 @@ export function calculateApprovalWinners(ballots: Ballot[]): Result {
   const result: Result = {
     winners: winners,
     method: 'approval',
-    points: points
+    points: points,
+    pairwiseResults: {}
   }
   return result
 }

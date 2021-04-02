@@ -9,15 +9,25 @@ export interface Ballot {
   choices: Choice[] // List of choices in order of preference
 }
 
-export interface Result {
-  winners: Choice[] // Usually just one, but in case of tie there may be more
-  method: string
-  points: ChoicePoints[]
-}
-
 export interface ChoicePoints {
   choice: Choice
   points: number
+}
+
+export interface PairwiseResult {
+  choiceA: ChoicePoints
+  choiceB: ChoicePoints
+}
+
+export interface Result {
+  winners: Choice[] // Usually just one, but in case of tie there may be more
+  method: string // Method used to calculate the result
+  points: ChoicePoints[] // Points (or votes) received by each choice
+  pairwiseResults: {
+    [id: string]: {
+      [id: string]: PairwiseResult
+    }
+  }
 }
 
 export interface State {

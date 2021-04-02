@@ -49,7 +49,8 @@ export function calculatePluralityWinners(ballots: Ballot[]): Result {
   const result: Result = {
     winners: winners,
     method: 'plurality',
-    points: points
+    points: points,
+    pairwiseResults: {}
   }
   return result
 }
