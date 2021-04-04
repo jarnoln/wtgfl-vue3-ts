@@ -1,17 +1,18 @@
 <template>
-  <div class="container">
-    <EditChoices />
-  </div>
+  <div class="container"></div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import EditChoices from '@/components/EditChoices.vue'
 
 export default defineComponent({
   name: 'Home',
-  components: {
-    EditChoices
+  created() {
+    console.log('Home:created()')
+    this.$router.push({
+      name: 'Vote',
+      params: { pollId: 'wtgfl1337' }
+    })
   }
 })
 </script>

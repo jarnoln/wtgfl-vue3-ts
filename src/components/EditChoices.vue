@@ -1,5 +1,5 @@
 <template>
-  <h1>Step 1: Edit choices</h1>
+  <h1>Setup</h1>
   <h2>Choices</h2>
   <div>
     <table>

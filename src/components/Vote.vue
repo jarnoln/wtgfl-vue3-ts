@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <PollBar :pollId="pollId" />
-    <h1>Step 2: Vote</h1>
+    <h1>Vote</h1>
     <div class="row">
       <div class="col-8">
         <div v-if="checkForNextVoter">

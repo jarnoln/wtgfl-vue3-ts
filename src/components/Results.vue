@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <PollBar :pollId="pollId" />
-    <h1>Step 3: Results</h1>
+    <h1>Results</h1>
     <div class="row">
       <div class="col-8">
         <div

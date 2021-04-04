@@ -1,7 +1,9 @@
 <template>
-  <PollBar :pollId="pollId" />
-  <div>
-    <EditChoices />
+  <div class="container">
+    <PollBar :pollId="pollId" />
+    <div>
+      <EditChoices />
+    </div>
   </div>
 </template>
 

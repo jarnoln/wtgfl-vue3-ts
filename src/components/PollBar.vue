@@ -1,15 +1,15 @@
 <template>
   <div id="pollNav">
     <router-link :to="{ name: 'Settings', params: { pollId: pollId } }"
-      >1. Choices</router-link
+      >Setup</router-link
     >
     |
     <router-link :to="{ name: 'Vote', params: { pollId: pollId } }"
-      >2. Vote</router-link
+      >Vote</router-link
     >
     |
     <router-link :to="{ name: 'Results', params: { pollId: pollId } }"
-      >3. Results</router-link
+      >Results</router-link
     >
   </div>
 </template>
