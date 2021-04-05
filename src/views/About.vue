@@ -14,7 +14,14 @@
           can we eat?' the second by the question 'Why do we eat?' and the third
           by the question 'Where shall we have lunch?”
         </p>
-        <p>― Douglas Adams: The Restaurant at the End of the Universe</p>
+        <p>
+          ― Douglas Adams:
+          <a
+            href="https://en.wikipedia.org/wiki/The_Restaurant_at_the_End_of_the_Universe"
+          >
+            The Restaurant at the End of the Universe
+          </a>
+        </p>
       </div>
 
       <p>

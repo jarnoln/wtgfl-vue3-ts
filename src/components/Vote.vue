@@ -173,10 +173,6 @@ table {
   border: 1px solid black;
 }
 
-.btn {
-  margin: 2px;
-}
-
 .choice {
   padding: 5px;
   margin: 3px;
