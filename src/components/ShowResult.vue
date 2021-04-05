@@ -19,6 +19,14 @@
     </table>
   </div>
   <div v-if="result.method.id === 'schulze'">
+    <h3>Pairwise results</h3>
+    <div v-for="(choiceA, indexA) in choices" :key="choiceA.id">
+      <div v-for="(choiceB, indexB) in choices" :key="choiceB.id">
+        <span v-if="indexB > indexA">
+          {{ getPairwiseResultString(result, choiceA, choiceB) }}
+        </span>
+      </div>
+    </div>
     <h3>Pairwise result matrix</h3>
     <table>
       <thead>
@@ -77,6 +85,29 @@ export default defineComponent({
         choiceB.id
       ].choiceB.points.toString()
       str += ')'
+      return str
+    },
+    getPairwiseResultString(
+      result: Result,
+      choiceA: Choice,
+      choiceB: Choice
+    ): string {
+      if (choiceA.id === choiceB.id) {
+        return ''
+      }
+      let str = choiceA.title + ' vs. ' + choiceB.title + ': '
+      const scoreA =
+        result.pairwiseResults[choiceA.id][choiceB.id].choiceA.points
+      const scoreB =
+        result.pairwiseResults[choiceA.id][choiceB.id].choiceB.points
+      str += scoreA.toString() + ' - ' + scoreB.toString()
+      if (scoreA > scoreB) {
+        str += ' Winner: ' + choiceA.title
+      } else if (scoreB > scoreA) {
+        str += ' Winner: ' + choiceB.title
+      } else {
+        str += ' Tie'
+      }
       return str
     },
     getWinnersString(result: Result): string {
