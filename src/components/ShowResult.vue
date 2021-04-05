@@ -50,6 +50,9 @@
         </tr>
       </tbody>
     </table>
+    <div v-for="choice in choices" :key="choice.id">
+      {{ choice.title }} loses to {{ getLosesTo(result, choice) }}
+    </div>
   </div>
 </template>
 
@@ -109,6 +112,29 @@ export default defineComponent({
         str += ' Tie'
       }
       return str
+    },
+    getLosesTo(result: Result, choiceA: Choice): string {
+      const losesTo: Choice[] = []
+      for (let i = 0; i < this.choices.length; i++) {
+        const choiceB = this.choices[i]
+        if (choiceA.id != choiceB.id) {
+          const scoreA =
+            result.pairwiseResults[choiceA.id][choiceB.id].choiceA.points
+          const scoreB =
+            result.pairwiseResults[choiceA.id][choiceB.id].choiceB.points
+          if (scoreB > scoreA) {
+            losesTo.push(choiceB)
+          }
+        }
+      }
+      if (losesTo.length === 0) {
+        return 'None. Condorcet winner.'
+      }
+      let losesToString = losesTo[0].title
+      for (let i = 1; i < losesTo.length; i++) {
+        losesToString += ', ' + losesTo[i].title
+      }
+      return losesToString
     },
     getWinnersString(result: Result): string {
       let winnerString = 'No winner'
