@@ -31,9 +31,9 @@ export interface Result {
 }
 
 export interface Poll {
-  id: string,
+  id: string
   title: string
-  description: string,
+  description: string
 }
 
 export interface State {
