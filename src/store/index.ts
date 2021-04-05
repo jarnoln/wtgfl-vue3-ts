@@ -1,5 +1,8 @@
 import { createStore } from 'vuex'
-import { State, Ballot, Poll, Result } from '@/types'
+import { State, Ballot, Method, Poll, Result } from '@/types'
+import { getApprovalMethod } from '@/methods/approval'
+import { getPluralityMethod } from '@/methods/plurality'
+import { getSchulzeMethod } from '@/methods/schulze'
 
 function idFromTitle(title: string): string {
   let newId: string = title.toLowerCase()
@@ -14,11 +17,7 @@ export default createStore({
         id: '',
         title: '',
         description: '',
-        method: {
-          id: 'schulze',
-          title: 'Schulze',
-          description: ''
-        }
+        method: getSchulzeMethod()
       },
       colors: [
         '#77f',
@@ -36,6 +35,7 @@ export default createStore({
       ],
       choices: [], // All choices available in this poll
       ballots: [], // All ballots cast in this poll
+      methods: [], // All available vote calculation methods
       results: [] // Poll results calculated from ballots
     }
   },
@@ -84,6 +84,10 @@ export default createStore({
       {
         state.poll = poll
       }
+    },
+    addMethod(state: State, method: Method) {
+      console.log('store:addMethod', method)
+      state.methods.push(method)
     }
   },
   actions: {
@@ -96,6 +100,11 @@ export default createStore({
       context.commit('addChoice', 'Pizza Palace')
       context.commit('addChoice', 'Taco Terrace')
       context.commit('addChoice', 'Sushi Stall')
+    },
+    addMethods(context) {
+      context.commit('addMethod', getApprovalMethod())
+      context.commit('addMethod', getPluralityMethod())
+      context.commit('addMethod', getSchulzeMethod())
     }
   },
   modules: {}

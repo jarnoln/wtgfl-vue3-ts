@@ -1,6 +1,6 @@
 <template>
-  <h3>Method: {{ result.method.title }}</h3>
   <h2>{{ getWinnersString(result) }}</h2>
+  <div>Method: {{ result.method.title }}</div>
   <div v-if="result.points.length > 0">
     <h3>Points</h3>
     <table>

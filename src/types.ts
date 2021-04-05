@@ -46,7 +46,8 @@ export interface Poll {
 export interface State {
   poll: Poll
   colors: string[]
-  choices: Choice[]
   ballots: Ballot[]
+  choices: Choice[]
+  methods: Method[]
   results: Result[]
 }

@@ -2,6 +2,18 @@
   <div class="container">
     <PollBar :pollId="pollId" />
     <h1>Results</h1>
+    <ul class="nav nav-tabs">
+      <li v-for="method in methods" :key="method.id" class="nav-item">
+        <a
+          class="nav-link"
+          :class="{ active: method.id === selectedMethod.id }"
+          href="#"
+          @click="selectMethod(method)"
+        >
+          {{ method.title }}
+        </a>
+      </li>
+    </ul>
     <div class="row">
       <div class="col-8">
         <div
@@ -23,13 +35,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
-import { Choice, Result } from '@/types'
+import { Method } from '@/types'
 import Ballots from '@/components/Ballots.vue'
 import PollBar from '@/components/PollBar.vue'
 import ShowResult from '@/components/ShowResult.vue'
 import { calculateApprovalWinners } from '@/methods/approval'
 import { calculatePluralityWinners } from '@/methods/plurality'
-import { calculateSchulzeWinners } from '@/methods/schulze'
+import { calculateSchulzeWinners, getSchulzeMethod } from '@/methods/schulze'
 
 export default defineComponent({
   name: 'Results',
@@ -45,43 +57,40 @@ export default defineComponent({
     ShowResult
   },
   created() {
+    if (this.methods.length === 0) {
+      this.$store.dispatch('addMethods')
+    }
     this.calculateResults()
+    this.selectedMethod = this.poll.method
   },
   data() {
     return {
-      voterId: '',
-      checkForNextVoter: false,
-      ballot: [] as Choice[],
-      unusedChoices: [] as Choice[]
+      selectedMethod: getSchulzeMethod()
     }
   },
-  computed: mapState(['choices', 'results', 'ballots']),
+  computed: mapState(['choices', 'methods', 'poll', 'results', 'ballots']),
   methods: {
     calculateResults() {
       console.log('calculateResults()')
       this.$store.commit('clearResults')
-      const approvalResult = calculateApprovalWinners(this.ballots)
-      const pluralityResult = calculatePluralityWinners(this.ballots)
-      const schulzeResult = calculateSchulzeWinners(this.choices, this.ballots)
-      this.$store.commit('addResult', approvalResult)
-      this.$store.commit('addResult', pluralityResult)
-      this.$store.commit('addResult', schulzeResult)
+      if (this.selectedMethod.id === 'approval') {
+        const approvalResult = calculateApprovalWinners(this.ballots)
+        this.$store.commit('addResult', approvalResult)
+      } else if (this.selectedMethod.id === 'plurality') {
+        const pluralityResult = calculatePluralityWinners(this.ballots)
+        this.$store.commit('addResult', pluralityResult)
+      } else if (this.selectedMethod.id === 'schulze') {
+        const schulzeResult = calculateSchulzeWinners(
+          this.choices,
+          this.ballots
+        )
+        this.$store.commit('addResult', schulzeResult)
+      }
     },
-    getWinnersString(result: Result): string {
-      let winnerString = 'No winner'
-      if (result.winners.length == 0) {
-        return winnerString
-      }
-      winnerString = 'Winner: ' + result.winners[0].title
-      if (result.winners.length == 1) {
-        return winnerString
-      }
-      // More than one winner
-      winnerString = 'Winners: ' + result.winners[0].title
-      for (let i = 1; i < result.winners.length; i++) {
-        winnerString += ', ' + result.winners[i].title
-      }
-      return winnerString
+    selectMethod(method: Method) {
+      console.log('selectMethod:', method)
+      this.selectedMethod = method
+      this.calculateResults()
     }
   }
 })
@@ -93,12 +102,6 @@ table {
 }
 
 .method-container {
-  padding: 5px;
-  margin: 3px;
-  border: 1px solid black;
-}
-
-.choice {
   padding: 5px;
   margin: 3px;
   border: 1px solid black;
