@@ -47,6 +47,7 @@
         id="btn-cast-ballot"
         type="button"
         class="btn btn-primary"
+        :disabled="ballot.length === 0"
         @click="castBallot()"
       >
         Cast ballot

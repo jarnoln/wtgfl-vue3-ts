@@ -52,6 +52,7 @@
     </table>
     <div v-for="choice in choices" :key="choice.id">
       {{ choice.title }} loses to {{ getLosesTo(result, choice) }}
+      <b v-if="getLosesTo(result, choice) === 'None'">Condorcet winner</b>
     </div>
   </div>
 </template>
@@ -128,7 +129,7 @@ export default defineComponent({
         }
       }
       if (losesTo.length === 0) {
-        return 'None. Condorcet winner.'
+        return 'None'
       }
       let losesToString = losesTo[0].title
       for (let i = 1; i < losesTo.length; i++) {
@@ -158,12 +159,6 @@ export default defineComponent({
 
 <style scoped>
 table {
-  border: 1px solid black;
-}
-
-.method-container {
-  padding: 5px;
-  margin: 3px;
   border: 1px solid black;
 }
 </style>

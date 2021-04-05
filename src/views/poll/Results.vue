@@ -100,10 +100,4 @@ export default defineComponent({
 table {
   border: 1px solid black;
 }
-
-.method-container {
-  padding: 5px;
-  margin: 3px;
-  border: 1px solid black;
-}
 </style>

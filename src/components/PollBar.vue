@@ -1,16 +1,34 @@
 <template>
   <div id="pollNav">
-    <router-link :to="{ name: 'Settings', params: { pollId: pollId } }"
-      >Setup</router-link
-    >
-    |
-    <router-link :to="{ name: 'Vote', params: { pollId: pollId } }"
-      >Vote</router-link
-    >
-    |
-    <router-link :to="{ name: 'Results', params: { pollId: pollId } }"
-      >Results</router-link
-    >
+    <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <router-link
+          class="nav-link"
+          :class="{ active: isActiveTab('Settings') }"
+          :to="{ name: 'Settings', params: { pollId: pollId } }"
+        >
+          Setup
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link
+          class="nav-link"
+          :class="{ active: isActiveTab('Vote') }"
+          :to="{ name: 'Vote', params: { pollId: pollId } }"
+        >
+          Vote
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link
+          class="nav-link"
+          :class="{ active: isActiveTab('Results') }"
+          :to="{ name: 'Results', params: { pollId: pollId } }"
+        >
+          Results
+        </router-link>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -23,6 +41,15 @@ export default defineComponent({
     pollId: {
       type: String,
       required: true
+    }
+  },
+  methods: {
+    isActiveTab(tabName: string): boolean {
+      console.log(this.$route.name)
+      if (this.$route.name === tabName) {
+        return true
+      }
+      return false
     }
   }
 })

@@ -65,8 +65,12 @@ export default defineComponent({
     console.log('EditPoll:created()')
     if (this.poll.id != '') {
       this.pollId = this.poll.id
+      this.pollTitle = this.poll.title
+      this.pollDescription = this.poll.description
     } else {
       this.pollId = 'wtgfl1337'
+      this.pollTitle = 'Where To Go For Lunch?'
+      this.pollDescription = 'Example poll'
     }
   },
   data() {
