@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 col-sm-6">
         <h2>Your ballot</h2>
-        <table>
+        <table id="ballot">
           <tr
             v-for="(choice, index) in ballot"
             :id="choice.id"
@@ -18,7 +18,7 @@
       </div>
       <div class="col-12 col-sm-6">
         <h2>Choices</h2>
-        <table>
+        <table id="choices">
           <tr
             v-for="choice in unusedChoices"
             :id="choice.id"
@@ -127,5 +127,11 @@ table {
   padding: 5px;
   margin: 3px;
   border: 1px solid black;
+  font-weight: bold;
+}
+
+#ballot {
+  font-family: 'Permanent Marker';
+  font-weight: bold;
 }
 </style>

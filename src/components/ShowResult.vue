@@ -22,7 +22,7 @@
     <h3>Pairwise results</h3>
     <div v-for="(choiceA, indexA) in choices" :key="choiceA.id">
       <div v-for="(choiceB, indexB) in choices" :key="choiceB.id">
-        <span v-if="indexB > indexA">
+        <span v-if="parseInt(indexB) > parseInt(indexA)">
           {{ getPairwiseResultString(result, choiceA, choiceB) }}
         </span>
       </div>
@@ -52,7 +52,9 @@
     </table>
     <div v-for="choice in choices" :key="choice.id">
       {{ choice.title }} loses to {{ getLosesTo(result, choice) }}
-      <b v-if="getLosesTo(result, choice) === 'None'">Condorcet winner</b>
+      <b v-if="getLosesTo(result, choice) === 'none'">
+        &lt;= Condorcet winner</b
+      >
     </div>
   </div>
 </template>
@@ -129,11 +131,14 @@ export default defineComponent({
         }
       }
       if (losesTo.length === 0) {
-        return 'None'
+        return 'none'
       }
       let losesToString = losesTo[0].title
-      for (let i = 1; i < losesTo.length; i++) {
+      for (let i = 1; i < losesTo.length - 1; i++) {
         losesToString += ', ' + losesTo[i].title
+      }
+      if (losesTo.length > 1) {
+        losesToString += ' and ' + losesTo[losesTo.length - 1].title
       }
       return losesToString
     },
