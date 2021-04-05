@@ -1,5 +1,5 @@
 <template>
-  <div id="pollNav">
+  <div id="pollBar">
     <ul class="nav nav-tabs">
       <li class="nav-item">
         <router-link
@@ -54,3 +54,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+#pollBar {
+  margin-bottom: 10px;
+}
+</style>

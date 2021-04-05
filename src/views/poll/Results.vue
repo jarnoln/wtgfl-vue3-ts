@@ -97,6 +97,10 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.nav {
+  margin-bottom: 10px;
+}
+
 table {
   border: 1px solid black;
 }

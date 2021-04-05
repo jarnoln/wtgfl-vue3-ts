@@ -6,9 +6,8 @@
         <p>
           Create polls where users can state their preferences of available
           lunch options and get a result which of them is the optimal(*) choice
-          for the whole group.
+          for the whole group. Possible to use also for other group decisions.
         </p>
-        <p>Possible to use also for other group decisions.</p>
         <p>
           Probably the best way to figure things out is to
           <router-link
@@ -25,7 +24,7 @@
         </p>
         <p>
           <small>
-            If there are two or more choices
+            * If there are two or more choices
             <a
               href="https://en.wikipedia.org/wiki/Arrow%27s_impossibility_theorem"
             >

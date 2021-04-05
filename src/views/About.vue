@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="about">
-      <h1>Where To Go For Lunch?</h1>
+      <h1 class="text-center">Where To Go For Lunch?</h1>
       <div class="quote">
         <p>
           “The History of every major Galactic Civilization tends to pass
@@ -89,7 +89,7 @@
         Coded by <a href="https://jln.fi">Jarno Luoma-Nirva</a> using
         <a href="https://v3.vuejs.org/">Vue 3</a> and
         <a href="https://www.typescriptlang.org/">TypeScript</a>. This software
-        is open source and availeble on
+        is open source and available on
         <a href="https://github.com/jarnoln/wtgfl-vue3-ts">GitHub</a>.
       </p>
     </div>
@@ -100,7 +100,6 @@
 .quote {
   padding: 5px;
   margin: 3px;
-  border: 0px solid black;
   font-style: italic;
 }
 </style>
