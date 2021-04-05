@@ -30,8 +30,14 @@ export interface Result {
   }
 }
 
+export interface Poll {
+  id: string,
+  title: string
+  description: string,
+}
+
 export interface State {
-  pollId: string
+  poll: Poll
   colors: string[]
   choices: Choice[]
   ballots: Ballot[]

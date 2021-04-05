@@ -1,5 +1,4 @@
 <template>
-  <h1>Setup</h1>
   <h2>Choices</h2>
   <div>
     <table>
@@ -44,24 +43,6 @@
       Use example choices
     </button>
   </p>
-  <p>
-    <button
-      id="btn-start-voting"
-      type="button"
-      class="btn btn-primary"
-      @click="startVoting()"
-    >
-      Start voting
-    </button>
-  </p>
-  <form>
-    <label for="new-poll-id">Poll ID:</label>
-    <input id="new-poll-id" type="text" v-model="localPollId" />
-    <p>
-      This is used to invite other people to vote on the poll and must be
-      unique. If voting only locally this can be ignored.
-    </p>
-  </form>
 </template>
 
 <script lang="ts">
@@ -75,15 +56,9 @@ export default defineComponent({
     if (this.choices.length === 0) {
       this.addExampleChoices()
     }
-    if (this.pollId != '') {
-      this.localPollId = this.pollId
-    } else {
-      this.localPollId = 'wtgfl1337'
-    }
   },
   data() {
     return {
-      localPollId: '',
       newChoiceText: ''
     }
   },
@@ -102,13 +77,6 @@ export default defineComponent({
     clearChoices() {
       this.$store.commit('clearBallots')
       this.$store.commit('clearChoices')
-    },
-    startVoting() {
-      this.$store.commit('setPollId', this.localPollId)
-      this.$router.push({
-        name: 'Vote',
-        params: { pollId: this.localPollId }
-      })
     }
   }
 })
