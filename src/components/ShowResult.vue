@@ -18,7 +18,7 @@
       </tr>
     </table>
   </div>
-  <div v-if="result.method === 'schulze'">
+  <div v-if="result.method.id === 'schulze'">
     <h3>Pairwise result matrix</h3>
     <table>
       <thead>

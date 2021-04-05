@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 import Settings from '../views/poll/Settings.vue'
 import Vote from '../views/poll/Vote.vue'
-import Results from '../components/Results.vue'
+import Results from '../views/poll/Results.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
