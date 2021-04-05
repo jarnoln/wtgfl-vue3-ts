@@ -10,64 +10,7 @@
           :key="result.method"
           class="method-container"
         >
-          <h3>Method: {{ result.method }}</h3>
-          <h2>{{ getWinnersString(result) }}</h2>
-          <div v-if="result.points.length > 0">
-            <h3>Points</h3>
-            <table>
-              <thead>
-                <th>Choice</th>
-                <th>Votes</th>
-              </thead>
-              <tr
-                v-for="choicePoints in result.points"
-                :key="choicePoints.choice.id"
-                :id="choicePoints.choice.id"
-              >
-                <td>{{ choicePoints.choice.title }}</td>
-                <td>{{ choicePoints.points }}</td>
-              </tr>
-            </table>
-          </div>
-          <div v-if="result.method === 'schulze'">
-            <h3>Pairwise result matrix</h3>
-            <table>
-              <thead>
-                <th>&nbsp;</th>
-                <th
-                  v-for="choice in choices"
-                  :key="choice.id"
-                  :style="'background-color: ' + choice.color"
-                >
-                  {{ choice.id.slice(0, 2) }}
-                </th>
-              </thead>
-              <tbody>
-                <tr v-for="choiceA in choices" :key="choiceA.id">
-                  <th :style="'background-color: ' + choiceA.color">
-                    {{ choiceA.id.slice(0, 2) }}
-                  </th>
-                  <td v-for="choiceB in choices" :key="choiceB.id">
-                    <span v-if="choiceA.id === choiceB.id">
-                      -
-                    </span>
-                    <span v-else>
-                      (
-                      {{
-                        result.pairwiseResults[choiceA.id][choiceB.id].choiceA
-                          .points
-                      }},
-                      {{
-                        result.pairwiseResults[choiceA.id][choiceB.id].choiceB
-                          .points
-                      }}
-                      )
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <ShowResult :result="result" />
         </div>
       </div>
       <div class="col-4">
@@ -83,6 +26,7 @@ import { mapState } from 'vuex'
 import { Choice, Result } from '@/types'
 import Ballots from '@/components/Ballots.vue'
 import PollBar from '@/components/PollBar.vue'
+import ShowResult from '@/components/ShowResult.vue'
 import { calculateApprovalWinners } from '@/methods/approval'
 import { calculatePluralityWinners } from '@/methods/plurality'
 import { calculateSchulzeWinners } from '@/methods/schulze'
@@ -97,7 +41,8 @@ export default defineComponent({
   },
   components: {
     Ballots,
-    PollBar
+    PollBar,
+    ShowResult
   },
   created() {
     this.calculateResults()
