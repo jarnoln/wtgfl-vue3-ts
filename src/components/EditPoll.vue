@@ -57,6 +57,7 @@
 import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
 import { Poll } from '@/types'
+import { getSchulzeMethod } from '@/methods/schulze'
 
 export default defineComponent({
   name: 'EditPoll',
@@ -81,7 +82,8 @@ export default defineComponent({
       const poll: Poll = {
         id: this.pollId,
         title: this.pollTitle,
-        description: this.pollDescription
+        description: this.pollDescription,
+        method: getSchulzeMethod()
       }
       this.$store.commit('setPoll', poll)
     },

@@ -1,4 +1,13 @@
-import { Ballot, Choice, ChoicePoints, Result } from '@/types'
+import { Ballot, Choice, ChoicePoints, Method, Result } from '@/types'
+
+export function getPluralityMethod() {
+  const method: Method = {
+    id: 'plurality',
+    title: 'Plurality',
+    description: ''
+  }
+  return method
+}
 
 export function calculatePluralityWinners(ballots: Ballot[]): Result {
   console.log('calculatePluralityWinners()')
@@ -48,7 +57,7 @@ export function calculatePluralityWinners(ballots: Ballot[]): Result {
 
   const result: Result = {
     winners: winners,
-    method: 'plurality',
+    method: getPluralityMethod(),
     points: points,
     pairwiseResults: {}
   }

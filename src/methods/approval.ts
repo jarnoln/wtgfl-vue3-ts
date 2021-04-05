@@ -1,4 +1,13 @@
-import { Ballot, Choice, ChoicePoints, Result } from '@/types'
+import { Ballot, Choice, ChoicePoints, Method, Result } from '@/types'
+
+export function getApprovalMethod() {
+  const method: Method = {
+    id: 'approval',
+    title: 'Approval',
+    description: ''
+  }
+  return method
+}
 
 export function calculateApprovalWinners(ballots: Ballot[]): Result {
   console.log('calculateApprovalWinners()')
@@ -47,7 +56,7 @@ export function calculateApprovalWinners(ballots: Ballot[]): Result {
 
   const result: Result = {
     winners: winners,
-    method: 'approval',
+    method: getApprovalMethod(),
     points: points,
     pairwiseResults: {}
   }

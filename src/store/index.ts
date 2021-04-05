@@ -13,7 +13,12 @@ export default createStore({
       poll: {
         id: '',
         title: '',
-        description: ''
+        description: '',
+        method: {
+          id: 'schulze',
+          title: 'Schulze',
+          description: ''
+        }
       },
       colors: [
         '#77f',

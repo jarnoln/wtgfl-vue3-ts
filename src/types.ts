@@ -19,9 +19,15 @@ export interface PairwiseResult {
   choiceB: ChoicePoints
 }
 
+export interface Method {
+  id: string
+  title: string
+  description: string
+}
+
 export interface Result {
   winners: Choice[] // Usually just one, but in case of tie there may be more
-  method: string // Method used to calculate the result
+  method: Method // Method used to calculate the result
   points: ChoicePoints[] // Points (or votes) received by each choice
   pairwiseResults: {
     [id: string]: {
@@ -34,6 +40,7 @@ export interface Poll {
   id: string
   title: string
   description: string
+  method: Method
 }
 
 export interface State {

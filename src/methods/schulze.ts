@@ -1,4 +1,13 @@
-import { Ballot, Choice, ChoicePoints, PairwiseResult, Result } from '@/types'
+import { Ballot, Choice, ChoicePoints, Method, PairwiseResult, Result } from '@/types'
+
+export function getSchulzeMethod() {
+  const method: Method = {
+    id: 'schulze',
+    title: 'Schulze',
+    description: ''
+  }
+  return method
+}
 
 function pairwiseDefeat(
   choiceA: Choice,
@@ -238,7 +247,7 @@ export function calculateSchulzeWinners(
   }
   const result: Result = {
     winners: schulzeWinnerList,
-    method: 'schulze',
+    method: getSchulzeMethod(),
     points: [],
     pairwiseResults: pairwiseResults
   }
