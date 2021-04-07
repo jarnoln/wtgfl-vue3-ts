@@ -3,6 +3,8 @@ import { State, Ballot, Method, Poll, Result } from '@/types'
 import { getApprovalMethod } from '@/methods/approval'
 import { getPluralityMethod } from '@/methods/plurality'
 import { getSchulzeMethod } from '@/methods/schulze'
+import EventService from '@/services/EventService'
+// import { renderSlot } from '@vue/runtime-core'
 
 function idFromTitle(title: string): string {
   let newId: string = title.toLowerCase()
@@ -17,6 +19,7 @@ export default createStore({
         id: '',
         title: '',
         description: '',
+        public: true,
         method: getSchulzeMethod()
       },
       colors: [
@@ -33,6 +36,7 @@ export default createStore({
         '#faf',
         '#ffa'
       ],
+      polls: [], // All (public) polls
       choices: [], // All choices available in this poll
       ballots: [], // All ballots cast in this poll
       methods: [], // All available vote calculation methods
@@ -59,9 +63,17 @@ export default createStore({
       )
       state.choices.push({ id: newId, title: title, color: color })
     },
+    addPoll(state: State, poll: Poll) {
+      console.log('store:addPoll', poll)
+      state.polls.push(poll)
+    },
     addResult(state: State, result: Result) {
       console.log('store:addResult', result)
       state.results.push(result)
+    },
+    clearPolls(state: State) {
+      console.log('store:clearPolls')
+      state.polls = []
     },
     clearBallots(state: State) {
       console.log('store:clearBallots')
@@ -105,6 +117,30 @@ export default createStore({
       context.commit('addMethod', getApprovalMethod())
       context.commit('addMethod', getPluralityMethod())
       context.commit('addMethod', getSchulzeMethod())
+    },
+    loadPolls(context) {
+      // Load all (public) polls from backend
+      console.log('store:loadPolls')
+      context.commit('clearPolls')
+      EventService.getPolls()
+        .then(response => {
+          console.log(response.data)
+          for (let i = 0; i < response.data.length; i++) {
+            const item = response.data[i]
+            console.log(item)
+            const poll: Poll = {
+              id: item.fields.name,
+              title: item.fields.title,
+              description: item.fields.description,
+              public: true,
+              method: getSchulzeMethod()
+            }
+            context.commit('addPoll', poll)
+          }
+        })
+        .catch((error: string) => {
+          console.log(error)
+        })
     }
   },
   modules: {}

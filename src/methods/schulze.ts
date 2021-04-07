@@ -1,4 +1,11 @@
-import { Ballot, Choice, ChoicePoints, Method, PairwiseResult, Result } from '@/types'
+import {
+  Ballot,
+  Choice,
+  ChoicePoints,
+  Method,
+  PairwiseResult,
+  Result
+} from '@/types'
 
 export function getSchulzeMethod() {
   const method: Method = {

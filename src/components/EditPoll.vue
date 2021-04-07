@@ -88,6 +88,7 @@ export default defineComponent({
         id: this.pollId,
         title: this.pollTitle,
         description: this.pollDescription,
+        public: true,
         method: getSchulzeMethod()
       }
       this.$store.commit('setPoll', poll)
@@ -101,7 +102,6 @@ export default defineComponent({
     },
     startVoting() {
       this.savePoll()
-      // this.$store.commit('setPollId', this.localPollId)
       this.$router.push({
         name: 'Vote',
         params: { pollId: this.poll.id }

@@ -40,11 +40,13 @@ export interface Poll {
   id: string
   title: string
   description: string
+  public: boolean
   method: Method
 }
 
 export interface State {
   poll: Poll
+  polls: Poll[]
   colors: string[]
   ballots: Ballot[]
   choices: Choice[]

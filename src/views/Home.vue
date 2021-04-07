@@ -54,6 +54,27 @@
             Create poll
           </button>
         </div>
+        <table class="table" v-if="polls.length > 0">
+          <thead>
+            <tr>
+              <th colspan="2">Public polls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="poll in polls" :key="poll.id">
+              <td>{{ poll.title }}</td>
+              <td>
+                <button
+                  class="btn btn-success btn-sm"
+                  type="button"
+                  @click="voteInPoll(poll.id)"
+                >
+                  Vote
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -61,25 +82,20 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import EventService from '@/services/EventService'
+import { mapState } from 'vuex'
 
 export default defineComponent({
   name: 'Home',
   created() {
     console.log('Home:created()')
-    EventService.getPolls()
-      .then(response => {
-        console.log(response)
-      })
-      .catch((error: string) => {
-        console.log(error)
-      })
+    this.$store.dispatch('loadPolls')
   },
   data() {
     return {
       examplePollId: 'wtgf1337'
     }
   },
+  computed: mapState(['polls']),
   methods: {
     createPoll() {
       this.$router.push({
@@ -87,11 +103,14 @@ export default defineComponent({
         params: { pollId: 'wtgfl1337' }
       })
     },
-    startVoting() {
+    voteInPoll(pollId: string) {
       this.$router.push({
         name: 'Vote',
-        params: { pollId: 'wtgfl1337' }
+        params: { pollId: pollId }
       })
+    },
+    startVoting() {
+      this.voteInPoll('wtgfl1337')
     }
   }
 })
