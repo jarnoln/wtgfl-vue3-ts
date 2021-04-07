@@ -58,6 +58,7 @@ import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
 import { Poll } from '@/types'
 import { getSchulzeMethod } from '@/methods/schulze'
+import EventService from '@/services/EventService'
 
 export default defineComponent({
   name: 'EditPoll',
@@ -90,6 +91,13 @@ export default defineComponent({
         method: getSchulzeMethod()
       }
       this.$store.commit('setPoll', poll)
+      EventService.savePoll(poll)
+        .then(response => {
+          console.log(response)
+        })
+        .catch((error: string) => {
+          console.log(error)
+        })
     },
     startVoting() {
       this.savePoll()
