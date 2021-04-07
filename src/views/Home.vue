@@ -61,11 +61,19 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import EventService from '@/services/EventService'
 
 export default defineComponent({
   name: 'Home',
   created() {
     console.log('Home:created()')
+    EventService.getPolls()
+      .then(response => {
+        console.log(response)
+      })
+      .catch((error: string) => {
+        console.log(error)
+      })
   },
   data() {
     return {
