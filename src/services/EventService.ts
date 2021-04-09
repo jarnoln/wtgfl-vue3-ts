@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Poll } from '@/types'
+import { Choice, Poll } from '@/types'
 
 const apiClient = axios.create({
   baseURL: 'http://127.0.0.1:8000/',
@@ -19,5 +19,8 @@ export default {
   },
   getChoices(poll: Poll) {
     return apiClient.get('/poll/' + poll.id + '/choices/')
+  },
+  saveChoice(poll: Poll, choice: Choice) {
+    return apiClient.put('/poll/' + poll.id + '/choice/' + choice.id + '/', choice)
   }
 }

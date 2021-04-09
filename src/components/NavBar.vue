@@ -44,7 +44,7 @@ export default defineComponent({
   name: 'NavBar',
   methods: {
     isActiveTab(tabName: string): boolean {
-      console.log(this.$route.name)
+      // console.log(this.$route.name)
       if (this.$route.name === tabName) {
         return true
       }

@@ -78,15 +78,27 @@ export default defineComponent({
     ballotWasCast: null
   },
   created() {
-    this.clearBallot()
+    console.log('EditBallot:created()')
+    // this.clearBallot()
   },
   data() {
     return {
-      ballot: [] as Choice[],
-      unusedChoices: [] as Choice[]
+      ballot: [] as Choice[]
     }
   },
-  computed: mapState(['choices', 'ballots']),
+  computed: {
+    ...mapState(['choices', 'ballots']),
+    unusedChoices: function() {
+      // List of choices that are not yet included in ballot
+      const unused: Choice[] = []
+      for (let i = 0; i < this.choices.length; i++) {
+        if (!this.isUsed(this.choices[i])) {
+          unused.push(this.choices[i])
+        }
+      }
+      return unused
+    }
+  },
   methods: {
     addToBallot(choice: Choice) {
       console.log('addToBallot(', choice, ')')
@@ -100,8 +112,6 @@ export default defineComponent({
     clearBallot() {
       console.log('clearBallot()')
       this.ballot = []
-      this.unusedChoices = [...this.choices] // Copy of choices-array
-      console.log('this.choices', this.choices)
     },
     castBallot() {
       console.log('castBallot()')
@@ -113,6 +123,14 @@ export default defineComponent({
       this.$store.commit('addBallot', ballot)
       this.clearBallot()
       this.$emit('ballotWasCast')
+    },
+    isUsed(choice: Choice): boolean {
+      for (let i = 0; i < this.ballot.length; i++) {
+        if (this.ballot[i].id === choice.id) {
+          return true
+        }
+      }
+      return false
     }
   }
 })
