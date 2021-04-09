@@ -21,6 +21,9 @@ export default {
     return apiClient.get('/poll/' + poll.id + '/choices/')
   },
   saveChoice(poll: Poll, choice: Choice) {
-    return apiClient.put('/poll/' + poll.id + '/choice/' + choice.id + '/', choice)
+    return apiClient.put(
+      '/poll/' + poll.id + '/choice/' + choice.id + '/',
+      choice
+    )
   }
 }

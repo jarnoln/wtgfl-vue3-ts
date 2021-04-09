@@ -65,7 +65,12 @@ export default createStore({
         'color:',
         color
       )
-      state.choices.push({ id: newId, title: title, color: color })
+      state.choices.push({
+        id: newId,
+        title: title,
+        color: color,
+        description: ''
+      })
     },
     addPoll(state: State, poll: Poll) {
       console.log('store:addPoll', poll)
@@ -158,7 +163,8 @@ export default createStore({
             const choice: Choice = {
               id: item.fields.name,
               title: item.fields.title,
-              color: item.fields.color
+              color: item.fields.color,
+              description: item.fields.description
             }
             context.commit('addChoice', choice)
           }

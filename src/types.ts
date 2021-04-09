@@ -2,6 +2,7 @@ export interface Choice {
   id: string
   title: string
   color: string
+  description: string
 }
 
 export interface Ballot {

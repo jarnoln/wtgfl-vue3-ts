@@ -104,9 +104,6 @@ export default defineComponent({
       console.log('addToBallot(', choice, ')')
       if (!this.ballot.includes(choice)) {
         this.ballot.push(choice)
-        // Remove this choice from unusedChoices
-        const index: number = this.unusedChoices.indexOf(choice)
-        this.unusedChoices.splice(index, 1)
       }
     },
     clearBallot() {

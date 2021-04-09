@@ -81,7 +81,7 @@ export default defineComponent({
       pollDescription: ''
     }
   },
-  computed: mapState(['poll']),
+  computed: mapState(['poll', 'choices']),
   methods: {
     savePoll() {
       const poll: Poll = {
@@ -99,6 +99,9 @@ export default defineComponent({
         .catch((error: string) => {
           console.log(error)
         })
+      for (let i = 0; i < this.choices.length; i++) {
+        EventService.saveChoice(poll, this.choices[i])
+      }
     },
     startVoting() {
       this.savePoll()

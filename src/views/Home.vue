@@ -57,12 +57,21 @@
         <table class="table" v-if="polls.length > 0">
           <thead>
             <tr>
-              <th colspan="2">Public polls</th>
+              <th colspan="3">Public polls</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="poll in polls" :key="poll.id">
               <td>{{ poll.title }}</td>
+              <td>
+                <button
+                  class="btn btn-warning btn-sm"
+                  type="button"
+                  @click="editPoll(poll.id)"
+                >
+                  Edit
+                </button>
+              </td>
               <td>
                 <button
                   class="btn btn-success btn-sm"
@@ -106,6 +115,12 @@ export default defineComponent({
     voteInPoll(pollId: string) {
       this.$router.push({
         name: 'Vote',
+        params: { pollId: pollId }
+      })
+    },
+    editPoll(pollId: string) {
+      this.$router.push({
+        name: 'Settings',
         params: { pollId: pollId }
       })
     },
