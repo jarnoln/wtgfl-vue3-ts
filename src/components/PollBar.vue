@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { mapState } from 'vuex'
 
 export default defineComponent({
   name: 'PollBar',
@@ -43,9 +44,31 @@ export default defineComponent({
       required: true
     }
   },
+  created() {
+    console.log('PollBar:created()')
+    if (this.poll.id != this.pollId) {
+      // If poll has not been set yet, do it now
+      for (let i = 0; i < this.polls.length; i++) {
+        if (this.polls[i].id === this.pollId) {
+          this.$store.commit('setPoll', this.polls[i])
+          break
+        }
+      }
+    }
+    if (this.choices.length === 0) {
+      if (this.pollId == 'wtgfl1337') {
+        this.$store.dispatch('addExampleChoices')
+      } else {
+        if (this.poll.id.length > 0) {
+          this.$store.dispatch('loadChoices', this.poll)
+        }
+      }
+    }
+  },
+  computed: mapState(['poll', 'polls', 'choices', 'ballots']),
   methods: {
     isActiveTab(tabName: string): boolean {
-      console.log(this.$route.name)
+      // console.log(this.$route.name)
       if (this.$route.name === tabName) {
         return true
       }

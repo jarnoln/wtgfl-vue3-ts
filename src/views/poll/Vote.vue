@@ -62,9 +62,6 @@ export default defineComponent({
     PollBar
   },
   created() {
-    if (this.choices.length === 0) {
-      this.$store.dispatch('addExampleChoices')
-    }
     this.nextVoter()
   },
   data() {

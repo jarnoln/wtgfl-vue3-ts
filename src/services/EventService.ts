@@ -12,9 +12,12 @@ const apiClient = axios.create({
 
 export default {
   getPolls() {
-    return apiClient.get('/polls')
+    return apiClient.get('/polls/')
   },
   savePoll(poll: Poll) {
     return apiClient.put('/poll/' + poll.id + '/', poll)
+  },
+  getChoices(poll: Poll) {
+    return apiClient.get('/poll/' + poll.id + '/choices/')
   }
 }

@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import { State, Ballot, Method, Poll, Result } from '@/types'
+import { State, Ballot, Choice, Method, Poll, Result } from '@/types'
 import { getApprovalMethod } from '@/methods/approval'
 import { getPluralityMethod } from '@/methods/plurality'
 import { getSchulzeMethod } from '@/methods/schulze'
@@ -48,7 +48,11 @@ export default createStore({
       console.log('store:addBallot', ballot)
       state.ballots.push(ballot)
     },
-    addChoice(state: State, title: string) {
+    addChoice(state: State, choice: Choice) {
+      console.log('store:addChoice', choice)
+      state.choices.push(choice)
+    },
+    createChoice(state: State, title: string) {
       const colorIndex: number = state.choices.length
       const color = state.colors[colorIndex]
       const newId: string = idFromTitle(title)
@@ -108,10 +112,10 @@ export default createStore({
       context.commit('clearResults')
       context.commit('clearChoices')
       context.commit('clearBallots')
-      context.commit('addChoice', 'Hamburger Hut')
-      context.commit('addChoice', 'Pizza Palace')
-      context.commit('addChoice', 'Taco Terrace')
-      context.commit('addChoice', 'Sushi Stall')
+      context.commit('createChoice', 'Hamburger Hut')
+      context.commit('createChoice', 'Pizza Palace')
+      context.commit('createChoice', 'Taco Terrace')
+      context.commit('createChoice', 'Sushi Stall')
     },
     addMethods(context) {
       context.commit('addMethod', getApprovalMethod())
@@ -127,7 +131,7 @@ export default createStore({
           console.log(response.data)
           for (let i = 0; i < response.data.length; i++) {
             const item = response.data[i]
-            console.log(item)
+            // console.log(item)
             const poll: Poll = {
               id: item.fields.name,
               title: item.fields.title,
@@ -136,6 +140,27 @@ export default createStore({
               method: getSchulzeMethod()
             }
             context.commit('addPoll', poll)
+          }
+        })
+        .catch((error: string) => {
+          console.log(error)
+        })
+    },
+    loadChoices(context, poll: Poll) {
+      console.log('store:loadChoices')
+      context.commit('clearChoices')
+      EventService.getChoices(poll)
+        .then(response => {
+          console.log(response.data)
+          for (let i = 0; i < response.data.length; i++) {
+            const item = response.data[i]
+            console.log(item)
+            const choice: Choice = {
+              id: item.fields.name,
+              title: item.fields.title,
+              color: item.fields.color
+            }
+            context.commit('addChoice', choice)
           }
         })
         .catch((error: string) => {

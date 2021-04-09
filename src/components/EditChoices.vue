@@ -53,9 +53,6 @@ export default defineComponent({
   name: 'EditChoices',
   created() {
     console.log('EditChoices:created()')
-    if (this.choices.length === 0) {
-      this.addExampleChoices()
-    }
   },
   data() {
     return {
@@ -65,7 +62,7 @@ export default defineComponent({
   computed: mapState(['choices', 'pollId']),
   methods: {
     addChoice(title: string) {
-      this.$store.commit('addChoice', title)
+      this.$store.commit('createChoice', title)
     },
     addNewChoice() {
       this.addChoice(this.newChoiceText)
