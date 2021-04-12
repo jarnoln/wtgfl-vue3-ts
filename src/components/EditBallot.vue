@@ -61,6 +61,7 @@ import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
 import { Ballot } from '@/types'
 import { Choice } from '@/types'
+import EventService from '@/services/EventService'
 
 export default defineComponent({
   name: 'EditBallot',
@@ -87,7 +88,7 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapState(['choices', 'ballots']),
+    ...mapState(['poll', 'choices', 'ballots']),
     unusedChoices: function() {
       // List of choices that are not yet included in ballot
       const unused: Choice[] = []
@@ -118,6 +119,13 @@ export default defineComponent({
         choices: this.ballot
       }
       this.$store.commit('addBallot', ballot)
+      EventService.saveBallot(this.poll, ballot)
+        .then(response => {
+          console.log('Ballot was saved', response)
+        })
+        .catch(error => {
+          console.warn('Failed to save ballot:', error)
+        })
       this.clearBallot()
       this.$emit('ballotWasCast')
     },

@@ -60,7 +60,7 @@ export default defineComponent({
         this.$store.dispatch('addExampleChoices')
       } else {
         if (this.poll.id.length > 0) {
-          this.$store.dispatch('loadChoices', this.poll)
+          this.$store.dispatch('loadChoicesAndBallots', this.poll)
         }
       }
     }

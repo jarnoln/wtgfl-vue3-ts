@@ -151,8 +151,8 @@ export default createStore({
           console.log(error)
         })
     },
-    loadChoices(context, poll: Poll) {
-      console.log('store:loadChoices')
+    loadChoicesAndBallots(context, poll: Poll) {
+      console.log('store:loadChoices', poll)
       context.commit('clearChoices')
       EventService.getChoices(poll)
         .then(response => {
@@ -168,6 +168,44 @@ export default createStore({
             }
             context.commit('addChoice', choice)
           }
+          // After getting choices get also ballots
+          context.commit('clearBallots')
+          EventService.getBallots(poll)
+            .then(response => {
+              console.log(response.data)
+              for (let i = 0; i < response.data.length; i++) {
+                const item = response.data[i]
+                console.log('loaded ballot:', item)
+                const choicesString = item.fields.choices
+                const choiceIdList = choicesString.split(',')
+                console.log(choiceIdList)
+                const choices: Choice[] = []
+                for (let j = 0; j < choiceIdList.length; j++) {
+                  const choiceId = choiceIdList[j]
+                  for (let k = 0; k < context.state.choices.length; k++) {
+                    const choice: Choice = context.state.choices[k]
+                    if (choice.id === choiceId) {
+                      choices.push(choice)
+                      console.log(
+                        'Add choice',
+                        choice,
+                        'to ballot',
+                        item.fields.voter_name
+                      )
+                      break
+                    }
+                  }
+                }
+                const ballot: Ballot = {
+                  voterId: item.fields.voter_name,
+                  choices: choices
+                }
+                context.commit('addBallot', ballot)
+              }
+            })
+            .catch((error: string) => {
+              console.log(error)
+            })
         })
         .catch((error: string) => {
           console.log(error)
