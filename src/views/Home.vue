@@ -93,6 +93,15 @@
 import { defineComponent } from 'vue'
 import { mapState } from 'vuex'
 
+function generateRandomId(length: number): string {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789'
+  let randomId = ''
+  for (let i = 0; i < length; i++) {
+    randomId += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return randomId
+}
+
 export default defineComponent({
   name: 'Home',
   created() {
@@ -109,7 +118,7 @@ export default defineComponent({
     createPoll() {
       this.$router.push({
         name: 'Settings',
-        params: { pollId: 'wtgfl1337' }
+        params: { pollId: generateRandomId(16) }
       })
     },
     voteInPoll(pollId: string) {
@@ -125,7 +134,7 @@ export default defineComponent({
       })
     },
     startVoting() {
-      this.voteInPoll('wtgfl1337')
+      this.voteInPoll(this.examplePollId)
     }
   }
 })
