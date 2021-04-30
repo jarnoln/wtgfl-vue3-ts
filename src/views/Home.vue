@@ -57,7 +57,7 @@
         <table class="table" v-if="polls.length > 0">
           <thead>
             <tr>
-              <th colspan="3">Public polls</th>
+              <th colspan="4">Public polls</th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +79,15 @@
                   @click="voteInPoll(poll.id)"
                 >
                   Vote
+                </button>
+              </td>
+              <td>
+                <button
+                  class="btn btn-danger btn-sm"
+                  type="button"
+                  @click="deletePoll(poll.id)"
+                >
+                  Delete
                 </button>
               </td>
             </tr>
@@ -132,6 +141,9 @@ export default defineComponent({
         name: 'Settings',
         params: { pollId: pollId }
       })
+    },
+    deletePoll(pollId: string) {
+      this.$store.dispatch('deletePoll', pollId)
     },
     startVoting() {
       this.voteInPoll(this.examplePollId)

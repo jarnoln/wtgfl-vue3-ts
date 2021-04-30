@@ -17,6 +17,9 @@ export default {
   savePoll(poll: Poll) {
     return apiClient.put('/poll/' + poll.id + '/', poll)
   },
+  deletePoll(pollId: string) {
+    return apiClient.delete('/poll/' + pollId + '/')
+  },
   getChoices(poll: Poll) {
     return apiClient.get('/poll/' + poll.id + '/choices/')
   },

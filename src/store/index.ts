@@ -107,6 +107,12 @@ export default createStore({
         state.poll = poll
       }
     },
+    clearPoll(state: State) {
+      console.log('store:clearPoll')
+      state.poll.id = ''
+      state.poll.title = ''
+      state.poll.description = ''
+    },
     addMethod(state: State, method: Method) {
       console.log('store:addMethod', method)
       state.methods.push(method)
@@ -127,6 +133,12 @@ export default createStore({
       context.commit('addMethod', getApprovalMethod())
       context.commit('addMethod', getPluralityMethod())
       context.commit('addMethod', getSchulzeMethod())
+    },
+    deletePoll(context, pollId: string) {
+      // Delete poll from backend, then reload all polls
+      console.log('store:deletePoll', pollId)
+      EventService.deletePoll(pollId).then(() => context.dispatch('loadPolls'))
+      context.commit('clearPoll')
     },
     loadPolls(context) {
       // Load all (public) polls from backend
