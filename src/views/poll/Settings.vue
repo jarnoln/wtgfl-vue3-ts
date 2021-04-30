@@ -4,7 +4,7 @@
     <h1>Setup</h1>
     <div class="row">
       <div class="col-12 col-sm-6">
-        <EditPoll />
+        <EditPoll :pollId="pollId" />
       </div>
       <div class="col-12 col-sm-6">
         <EditChoices />

@@ -15,6 +15,7 @@ function idFromTitle(title: string): string {
 export default createStore({
   state() {
     return {
+      // Currently selected poll
       poll: {
         id: '',
         title: '',

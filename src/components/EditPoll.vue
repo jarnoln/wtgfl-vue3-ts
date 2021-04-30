@@ -24,7 +24,7 @@
         id="new-poll-id"
         type="text"
         class="form-control"
-        v-model="pollId"
+        v-model="localPollId"
       />
       <div id="poll-id-help" class="form-text">
         This is used to invite other people to vote on the poll and must be
@@ -62,21 +62,25 @@ import EventService from '@/services/EventService'
 
 export default defineComponent({
   name: 'EditPoll',
+  props: {
+    pollId: {
+      type: String,
+      required: true
+    }
+  },
   created() {
     console.log('EditPoll:created()')
+    this.localPollId = this.pollId
     if (this.poll.id != '') {
-      this.pollId = this.poll.id
+      // Poll already exists, initialize with current values.
+      this.localPollId = this.poll.id
       this.pollTitle = this.poll.title
       this.pollDescription = this.poll.description
-    } else {
-      this.pollId = 'wtgfl1337'
-      this.pollTitle = 'Where To Go For Lunch?'
-      this.pollDescription = 'Example poll'
     }
   },
   data() {
     return {
-      pollId: '',
+      localPollId: '',
       pollTitle: '',
       pollDescription: ''
     }
@@ -85,7 +89,7 @@ export default defineComponent({
   methods: {
     savePoll() {
       const poll: Poll = {
-        id: this.pollId,
+        id: this.localPollId,
         title: this.pollTitle,
         description: this.pollDescription,
         public: true,
@@ -101,6 +105,14 @@ export default defineComponent({
         })
       for (let i = 0; i < this.choices.length; i++) {
         EventService.saveChoice(poll, this.choices[i])
+      }
+      if (this.localPollId != this.pollId) {
+        console.log('Poll ID changed from', this.pollId, 'to', this.localPollId)
+        // Update router
+        this.$router.push({
+          name: 'Settings',
+          params: { pollId: this.localPollId }
+        })
       }
     },
     startVoting() {
