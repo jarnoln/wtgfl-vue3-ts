@@ -42,6 +42,7 @@ export interface Poll {
   title: string
   description: string
   public: boolean
+  saved: boolean
   method: Method
 }
 

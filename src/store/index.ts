@@ -20,7 +20,8 @@ export default createStore({
         id: '',
         title: '',
         description: '',
-        public: true,
+        public: true, // Is poll visible in public poll list
+        saved: true, // Has poll been saved after any changes
         method: getSchulzeMethod()
       },
       colors: [
@@ -103,9 +104,11 @@ export default createStore({
     },
     setPoll(state: State, poll: Poll) {
       console.log('store:setPoll', poll)
-      {
-        state.poll = poll
-      }
+      state.poll = poll
+    },
+    setPollSaved(state: State, saved: boolean) {
+      console.log('store:setPollSaved', saved)
+      state.poll.saved = saved
     },
     clearPoll(state: State) {
       console.log('store:clearPoll')
@@ -155,6 +158,7 @@ export default createStore({
               title: item.fields.title,
               description: item.fields.description,
               public: true,
+              saved: true,
               method: getSchulzeMethod()
             }
             context.commit('addPoll', poll)

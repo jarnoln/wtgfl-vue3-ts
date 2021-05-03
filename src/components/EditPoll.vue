@@ -37,6 +37,7 @@
       id="btn-save-poll"
       type="button"
       class="btn btn-primary"
+      :disabled="isSaved"
       @click="savePoll()"
     >
       Save
@@ -51,6 +52,7 @@
       Start voting
     </button>
   </p>
+  <p>Saved: {{ isSaved }}</p>
 </template>
 
 <script lang="ts">
@@ -82,17 +84,30 @@ export default defineComponent({
     return {
       localPollId: '',
       pollTitle: '',
-      pollDescription: ''
+      pollDescription: '',
+      saveInProgress: false
     }
   },
-  computed: mapState(['poll', 'choices']),
+  computed: {
+    ...mapState(['poll', 'choices']),
+    isSaved: function(): boolean {
+      return (
+        this.localPollId === this.poll.id &&
+        this.pollTitle === this.poll.title &&
+        this.pollDescription === this.poll.description &&
+        this.poll.saved
+      )
+    }
+  },
   methods: {
     savePoll() {
+      this.saveInProgress = true
       const poll: Poll = {
         id: this.localPollId,
         title: this.pollTitle,
         description: this.pollDescription,
         public: true,
+        saved: false,
         method: getSchulzeMethod()
       }
       this.$store.commit('setPoll', poll)
@@ -114,6 +129,7 @@ export default defineComponent({
           params: { pollId: this.localPollId }
         })
       }
+      this.$store.commit('setPollSaved', true)
     },
     startVoting() {
       this.savePoll()
